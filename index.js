@@ -6,17 +6,17 @@ const swaggerDocument = require('./swagger.json');
 const app = express();
 const port = 3000;
 
-// Middleware para parsing JSON
+// Middleware to parsing JSON
 app.use(express.json());
 
-// Conectar ao MongoDB
+// Conect to MongoDB
 mongoose.connect('mongodb://localhost:27017/orders').then(() => {
-  console.log('Conectado ao MongoDB');
+  console.log('Conected to MongoDB');
 }).catch(err => {
-  console.error('Erro ao conectar ao MongoDB:', err);
+  console.error('Error connecting to MongoDB:', err);
 });
 
-// Schema do pedido
+// Order Schema
 const orderSchema = new mongoose.Schema({
   orderId: { type: String, required: true, unique: true },
   value: { type: Number, required: true },
@@ -30,7 +30,7 @@ const orderSchema = new mongoose.Schema({
 
 const Order = mongoose.model('Order', orderSchema);
 
-// Função para transformar os dados do pedido
+// Function to transform orders data
 function transformOrder(input) {
   return {
     orderId: input.numeroPedido,
@@ -46,56 +46,56 @@ function transformOrder(input) {
 
 app.use('/api-docs', SwaggerUI.serve, SwaggerUI.setup(swaggerDocument));
 
-// Criar um novo pedido
+// Create new order
 app.post("/order", async (req, res) => {
   try {
     const transformed = transformOrder(req.body);
     const order = new Order(transformed);
     await order.save();
-    res.status(201).json({ message: "Pedido criado com sucesso", orderId: transformed.orderId });
+    res.status(201).json({ message: "Order created successfully", orderId: transformed.orderId });
   } catch (e) {
     if (e.code === 11000) { // Duplicate key error
-      res.status(400).json({ error: "Pedido com este ID já existe" });
+      res.status(400).json({ error: "An order with this ID already exists." });
     } else {
-      res.status(500).json({ error: "Erro ao criar pedido" });
+      res.status(500).json({ error: "Error creating order" });
     }
   }
 });
 
-// Obter os dados do pedido por ID
+// Get order data by ID.
 app.get("/order/:orderId", async (req, res) => {
   try {
     const order = await Order.findOne({ orderId: req.params.orderId });
     if (!order) {
-      return res.status(404).json({ error: "Pedido não encontrado" });
+      return res.status(404).json({ error: "Order not found" });
     }
     res.json(order);
   } catch (e) {
-    res.status(500).json({ error: "Erro ao buscar pedido" });
+    res.status(500).json({ error: "Error when searching for order" });
   }
 });
 
-// Listar todos os pedidos
+// List all orders
 app.get("/orders/list", async (req, res) => {
   try {
     const orders = await Order.find();
     res.json(orders);
   } catch (e) {
-    res.status(500).json({ error: "Erro ao listar pedidos" });
+    res.status(500).json({ error: "Error listing orders" });
   }
 });
 
-// Atualizar o pedido
+// Update order
 app.put("/order/:orderId", async (req, res) => {
   try {
     const transformed = transformOrder(req.body);
     const order = await Order.findOneAndUpdate({ orderId: req.params.orderId }, transformed, { new: true });
     if (!order) {
-      return res.status(404).json({ error: "Pedido não encontrado" });
+      return res.status(404).json({ error: "Order not found" });
     }
-    res.json({ message: "Pedido atualizado com sucesso", order });
+    res.json({ message: "Order updated sucessfully", order });
   } catch (e) {
-    res.status(500).json({ error: "Erro ao atualizar pedido" });
+    res.status(500).json({ error: "Error updating order" });
   }
 });
 
@@ -104,14 +104,15 @@ app.delete("/order/:orderId", async (req, res) => {
   try {
     const order = await Order.findOneAndDelete({ orderId: req.params.orderId });
     if (!order) {
-      return res.status(404).json({ error: "Pedido não encontrado" });
+      return res.status(404).json({ error: "Order not found" });
     }
-    res.json({ message: "Pedido deletado com sucesso" });
+    res.json({ message: "Order deleted sucessfully" });
   } catch (e) {
-    res.status(500).json({ error: "Erro ao deletar pedido" });
+    res.status(500).json({ error: "Error deleting order" });
   }
 });
 
 app.listen(port, () => {
-  console.log(`Example app listening on port ${port}`);
+  console.log(`App listening on port ${port}`);
 });
+
