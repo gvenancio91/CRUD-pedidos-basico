@@ -1,8 +1,8 @@
 {
   "swagger": "2.0",
   "info": {
-    "title": "API de Gerenciamento de Pedidos",
-    "description": "API simples para gerenciar pedidos com operações CRUD completas",
+    "title": "Order Management API",
+    "description": "Simple API to manage orders with complete CRUD operations",
     "version": "1.0.0",
     "contact": {
       "name": "Jitterbit API Support"
@@ -16,14 +16,14 @@
   "paths": {
     "/order": {
       "post": {
-        "summary": "Criar um novo pedido",
-        "description": "Cria um novo pedido no banco de dados com transformação de dados",
-        "operationId": "criarPedido",
+        "summary": "Create a new order",
+        "description": "Creates a new order in the database with data transformation",
+        "operationId": "createOrder",
         "parameters": [
           {
             "name": "body",
             "in": "body",
-            "description": "Objeto do pedido a ser criado",
+            "description": "Order object to be created",
             "required": true,
             "schema": {
               "$ref": "#/definitions/PedidoInput"
@@ -32,7 +32,7 @@
         ],
         "responses": {
           "201": {
-            "description": "Pedido criado com sucesso",
+            "description": "Order created successfully",
             "schema": {
               "type": "object",
               "properties": {
@@ -46,40 +46,40 @@
             }
           },
           "400": {
-            "description": "Pedido com este ID já existe"
+            "description": "Order with this ID already exists"
           },
           "500": {
-            "description": "Erro ao criar pedido"
+            "description": "Error creating order"
           }
         }
       }
     },
     "/order/{orderId}": {
       "get": {
-        "summary": "Obter dados do pedido por ID",
-        "description": "Retorna os dados de um pedido específico",
-        "operationId": "obterPedido",
+        "summary": "Get order data by ID",
+        "description": "Returns the data of a specific order",
+        "operationId": "getOrder",
         "parameters": [
           {
             "name": "orderId",
             "in": "path",
-            "description": "ID do pedido (ex: v10089016vdb)",
+            "description": "Order ID (ex: v10089016vdb)",
             "required": true,
             "type": "string"
           }
         ],
         "responses": {
           "200": {
-            "description": "Pedido encontrado",
+            "description": "Order found",
             "schema": {
-              "$ref": "#/definitions/Pedido"
+              "$ref": "#/definitions/Order"
             }
           },
           "404": {
-            "description": "Pedido não encontrado"
+            "description": "Order not found"
           },
           "500": {
-            "description": "Erro ao buscar pedido"
+            "description": "Error fetching order"
           }
         }
       },
@@ -157,7 +157,7 @@
             "description": "Pedido não encontrado"
           },
           "500": {
-            "description": "Erro ao deletar pedido"
+            "description": "Error creating order"
           }
         }
       }
