@@ -1,0 +1,291 @@
+{
+  "swagger": "2.0",
+  "info": {
+    "title": "API de Gerenciamento de Pedidos",
+    "description": "API simples para gerenciar pedidos com operações CRUD completas",
+    "version": "1.0.0",
+    "contact": {
+      "name": "Jitterbit API Support"
+    }
+  },
+  "host": "localhost:3000",
+  "basePath": "/",
+  "schemes": ["http"],
+  "consumes": ["application/json"],
+  "produces": ["application/json"],
+  "paths": {
+    "/order": {
+      "post": {
+        "summary": "Criar um novo pedido",
+        "description": "Cria um novo pedido no banco de dados com transformação de dados",
+        "operationId": "criarPedido",
+        "parameters": [
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Objeto do pedido a ser criado",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PedidoInput"
+            }
+          }
+        ],
+        "responses": {
+          "201": {
+            "description": "Pedido criado com sucesso",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "orderId": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "400": {
+            "description": "Pedido com este ID já existe"
+          },
+          "500": {
+            "description": "Erro ao criar pedido"
+          }
+        }
+      }
+    },
+    "/order/{orderId}": {
+      "get": {
+        "summary": "Obter dados do pedido por ID",
+        "description": "Retorna os dados de um pedido específico",
+        "operationId": "obterPedido",
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "description": "ID do pedido (ex: v10089016vdb)",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pedido encontrado",
+            "schema": {
+              "$ref": "#/definitions/Pedido"
+            }
+          },
+          "404": {
+            "description": "Pedido não encontrado"
+          },
+          "500": {
+            "description": "Erro ao buscar pedido"
+          }
+        }
+      },
+      "put": {
+        "summary": "Atualizar um pedido",
+        "description": "Atualiza os dados de um pedido existente",
+        "operationId": "atualizarPedido",
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "description": "ID do pedido a ser atualizado",
+            "required": true,
+            "type": "string"
+          },
+          {
+            "name": "body",
+            "in": "body",
+            "description": "Dados atualizados do pedido",
+            "required": true,
+            "schema": {
+              "$ref": "#/definitions/PedidoInput"
+            }
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pedido atualizado com sucesso",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                },
+                "order": {
+                  "$ref": "#/definitions/Pedido"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Pedido não encontrado"
+          },
+          "500": {
+            "description": "Erro ao atualizar pedido"
+          }
+        }
+      },
+      "delete": {
+        "summary": "Deletar um pedido",
+        "description": "Remove um pedido do banco de dados",
+        "operationId": "deletarPedido",
+        "parameters": [
+          {
+            "name": "orderId",
+            "in": "path",
+            "description": "ID do pedido a ser deletado",
+            "required": true,
+            "type": "string"
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "Pedido deletado com sucesso",
+            "schema": {
+              "type": "object",
+              "properties": {
+                "message": {
+                  "type": "string"
+                }
+              }
+            }
+          },
+          "404": {
+            "description": "Pedido não encontrado"
+          },
+          "500": {
+            "description": "Erro ao deletar pedido"
+          }
+        }
+      }
+    },
+    "/orders/list": {
+      "get": {
+        "summary": "Listar todos os pedidos",
+        "description": "Retorna uma lista de todos os pedidos cadastrados",
+        "operationId": "listarPedidos",
+        "responses": {
+          "200": {
+            "description": "Lista de pedidos",
+            "schema": {
+              "type": "array",
+              "items": {
+                "$ref": "#/definitions/Pedido"
+              }
+            }
+          },
+          "500": {
+            "description": "Erro ao listar pedidos"
+          }
+        }
+      }
+    }
+  },
+  "definitions": {
+    "PedidoInput": {
+      "type": "object",
+      "required": ["numeroPedido", "valorTotal", "dataCriacao", "items"],
+      "properties": {
+        "numeroPedido": {
+          "type": "string",
+          "example": "v10089015vdb-01",
+          "description": "Número único do pedido"
+        },
+        "valorTotal": {
+          "type": "number",
+          "example": 10000,
+          "description": "Valor total do pedido"
+        },
+        "dataCriacao": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2023-07-19T12:24:11.5299601+00:00",
+          "description": "Data de criação do pedido em formato ISO 8601"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/ItemInput"
+          },
+          "description": "Lista de itens do pedido"
+        }
+      }
+    },
+    "ItemInput": {
+      "type": "object",
+      "required": ["idItem", "quantidadeItem", "valorItem"],
+      "properties": {
+        "idItem": {
+          "type": "string",
+          "example": "2434",
+          "description": "ID do produto"
+        },
+        "quantidadeItem": {
+          "type": "integer",
+          "example": 1,
+          "description": "Quantidade do item"
+        },
+        "valorItem": {
+          "type": "number",
+          "example": 1000,
+          "description": "Valor unitário do item"
+        }
+      }
+    },
+    "Pedido": {
+      "type": "object",
+      "properties": {
+        "_id": {
+          "type": "string",
+          "description": "ID do MongoDB"
+        },
+        "orderId": {
+          "type": "string",
+          "example": "v10089015vdb-01",
+          "description": "Número único do pedido"
+        },
+        "value": {
+          "type": "number",
+          "example": 10000,
+          "description": "Valor total do pedido"
+        },
+        "creationDate": {
+          "type": "string",
+          "format": "date-time",
+          "example": "2023-07-19T12:24:11.529Z",
+          "description": "Data de criação do pedido"
+        },
+        "items": {
+          "type": "array",
+          "items": {
+            "$ref": "#/definitions/Item"
+          },
+          "description": "Lista de itens do pedido"
+        }
+      }
+    },
+    "Item": {
+      "type": "object",
+      "properties": {
+        "productId": {
+          "type": "integer",
+          "example": 2434,
+          "description": "ID do produto"
+        },
+        "quantity": {
+          "type": "integer",
+          "example": 1,
+          "description": "Quantidade do item"
+        },
+        "price": {
+          "type": "number",
+          "example": 1000,
+          "description": "Valor unitário do item"
+        }
+      }
+    }
+  }
+}
