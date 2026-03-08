@@ -1,53 +1,52 @@
-# API de Gerenciamento de Pedidos
+# Order Management API
 
-Esta é uma API Node.js para gerenciar pedidos, utilizando Express, MongoDB e Swagger para documentação interativa.
+This is a Node.js API for managing orders, using Express, MongoDB, and Swagger for interactive documentation.
 
-## Pré-requisitos
+## Prerequisites
 
-- Node.js instalado
-- MongoDB instalado e rodando localmente na porta padrão (27017)
+- Node.js installed
+- MongoDB installed and running locally on the default port (27017)
 
-## Instalação
+## Installation
 
-1. Clone o repositório
-2. Execute `npm install` para instalar as dependências
-3. Certifique-se de que o MongoDB está rodando
-4. Execute `npm start` para iniciar o servidor na porta 3000
+1. Clone the repository
+2. Run `npm install` to install the dependencies
+3. Ensure MongoDB is running
+4. Run `npm start` to start the server on port 3000
 
-## Documentação Swagger
+## Swagger Documentation
 
-Após iniciar o servidor, acesse a documentação interativa em:
-```
+After starting the server, access the interactive documentation at:
+
 http://localhost:3000/api-docs
-```
 
 ## Endpoints
 
-### Criar Pedido
+### Create Order
 - **POST** `/order`
-- Corpo da requisição: JSON conforme especificado
-- Resposta: 201 Created com orderId
+- Request body: JSON as specified
+- Response: 201 Created with orderId
 
-### Obter Pedido por ID
+### Get Order by ID
 - **GET** `/order/:orderId`
-- Resposta: JSON do pedido ou 404 se não encontrado
+- Response: JSON of the order or 404 if not found
 
-### Listar Todos os Pedidos
-- **GET** `/order/list`
-- Resposta: Array de pedidos
+### List All Orders
+- **GET** `/orders/list`
+- Response: Array of orders
 
-### Atualizar Pedido
+### Update Order
 - **PUT** `/order/:orderId`
-- Corpo: JSON do pedido atualizado
-- Resposta: Pedido atualizado ou 404
+- Body: JSON of the updated order
+- Response: Updated order or 404 error
 
-### Deletar Pedido
+### Delete Order
 - **DELETE** `/order/:orderId`
-- Resposta: Mensagem de sucesso ou 404
+- Response: Success message or 404 error
 
-## Exemplo de Uso
+## Example of Use
 
-Para criar um pedido, use o curl fornecido no desafio:
+To create an order, use the curl provided:
 
 ```bash
 curl --location 'http://localhost:3000/order' \
@@ -66,8 +65,10 @@ curl --location 'http://localhost:3000/order' \
 }'
 ```
 
-## Observações
+## Notes
 
-- Certifique-se de que o MongoDB está conectado; caso contrário, a API não funcionará.
-- Os dados são automaticamente transformados.
-- A documentação Swagger é gerada automaticamente a partir do arquivo `swagger.json`.
+- Ensure MongoDB is connected; otherwise, the API will not work.
+
+- Data is automatically transformed.
+
+- Swagger documentation is automatically generated from the `swagger.json` file.
