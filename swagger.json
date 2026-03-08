@@ -84,21 +84,21 @@
         }
       },
       "put": {
-        "summary": "Atualizar um pedido",
-        "description": "Atualiza os dados de um pedido existente",
-        "operationId": "atualizarPedido",
+        "summary": "Update order",
+        "description": "Updates the data of an existing order.",
+        "operationId": "updateOrder",
         "parameters": [
           {
             "name": "orderId",
             "in": "path",
-            "description": "ID do pedido a ser atualizado",
+            "description": "Order ID to be updated",
             "required": true,
             "type": "string"
           },
           {
             "name": "body",
             "in": "body",
-            "description": "Dados atualizados do pedido",
+            "description": "Updated order details",
             "required": true,
             "schema": {
               "$ref": "#/definitions/PedidoInput"
@@ -107,7 +107,7 @@
         ],
         "responses": {
           "200": {
-            "description": "Pedido atualizado com sucesso",
+            "description": "Order updated successfully",
             "schema": {
               "type": "object",
               "properties": {
@@ -121,29 +121,29 @@
             }
           },
           "404": {
-            "description": "Pedido não encontrado"
+            "description": "Order not found"
           },
           "500": {
-            "description": "Erro ao atualizar pedido"
+            "description": "Error updating order"
           }
         }
       },
       "delete": {
-        "summary": "Deletar um pedido",
-        "description": "Remove um pedido do banco de dados",
-        "operationId": "deletarPedido",
+        "summary": "Delete an order",
+        "description": "Remove an order from the database.",
+        "operationId": "deleteOrder",
         "parameters": [
           {
             "name": "orderId",
             "in": "path",
-            "description": "ID do pedido a ser deletado",
+            "description": "Order ID to be deleted",
             "required": true,
             "type": "string"
           }
         ],
         "responses": {
           "200": {
-            "description": "Pedido deletado com sucesso",
+            "description": "Order successfully deleted.",
             "schema": {
               "type": "object",
               "properties": {
@@ -154,7 +154,7 @@
             }
           },
           "404": {
-            "description": "Pedido não encontrado"
+            "description": "Order not found"
           },
           "500": {
             "description": "Error creating order"
@@ -164,12 +164,12 @@
     },
     "/orders/list": {
       "get": {
-        "summary": "Listar todos os pedidos",
-        "description": "Retorna uma lista de todos os pedidos cadastrados",
-        "operationId": "listarPedidos",
+        "summary": "List all orders",
+        "description": "Returns a list of all registered orders.",
+        "operationId": "listorders",
         "responses": {
           "200": {
-            "description": "Lista de pedidos",
+            "description": "Orders list",
             "schema": {
               "type": "array",
               "items": {
@@ -178,7 +178,7 @@
             }
           },
           "500": {
-            "description": "Erro ao listar pedidos"
+            "description": "Error listing orders"
           }
         }
       }
@@ -192,25 +192,25 @@
         "numeroPedido": {
           "type": "string",
           "example": "v10089015vdb-01",
-          "description": "Número único do pedido"
+          "description": "Unique order number"
         },
         "valorTotal": {
           "type": "number",
           "example": 10000,
-          "description": "Valor total do pedido"
+          "description": "Total order value"
         },
         "dataCriacao": {
           "type": "string",
           "format": "date-time",
           "example": "2023-07-19T12:24:11.5299601+00:00",
-          "description": "Data de criação do pedido em formato ISO 8601"
+          "description": "Date the order was created in ISO 8601 format."
         },
         "items": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/ItemInput"
           },
-          "description": "Lista de itens do pedido"
+          "description": "Order list"
         }
       }
     },
@@ -221,17 +221,17 @@
         "idItem": {
           "type": "string",
           "example": "2434",
-          "description": "ID do produto"
+          "description": "Product ID"
         },
         "quantidadeItem": {
           "type": "integer",
           "example": 1,
-          "description": "Quantidade do item"
+          "description": "Item quantity"
         },
         "valorItem": {
           "type": "number",
           "example": 1000,
-          "description": "Valor unitário do item"
+          "description": "Unit price of the item"
         }
       }
     },
@@ -245,25 +245,25 @@
         "orderId": {
           "type": "string",
           "example": "v10089015vdb-01",
-          "description": "Número único do pedido"
+          "description": "Unique order number"
         },
         "value": {
           "type": "number",
           "example": 10000,
-          "description": "Valor total do pedido"
+          "description": "Total order value"
         },
         "creationDate": {
           "type": "string",
           "format": "date-time",
           "example": "2023-07-19T12:24:11.529Z",
-          "description": "Data de criação do pedido"
+          "description": "Order creation date"
         },
         "items": {
           "type": "array",
           "items": {
             "$ref": "#/definitions/Item"
           },
-          "description": "Lista de itens do pedido"
+          "description": "Order list"
         }
       }
     },
@@ -273,19 +273,20 @@
         "productId": {
           "type": "integer",
           "example": 2434,
-          "description": "ID do produto"
+          "description": "Product ID"
         },
         "quantity": {
           "type": "integer",
           "example": 1,
-          "description": "Quantidade do item"
+          "description": "Item quantity"
         },
         "price": {
           "type": "number",
           "example": 1000,
-          "description": "Valor unitário do item"
+          "description": "Unit price of the item"
         }
       }
     }
   }
 }
+
